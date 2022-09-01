@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 
+import Bean.Customer;
 import org.junit.Test;
 import utils.JDBCUtils;
 
