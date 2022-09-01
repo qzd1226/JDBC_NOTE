@@ -35,6 +35,13 @@ public class PreparedStatementTest {
         }else{
             System.out.println("用户名不存在或密码错误");
         }
+        System.out.println(returnUser);
+        sql = "INSERT INTO admin (username,PASSWORD,phone,Address) values (?,?,?,?)";
+        String newUser = "ybk";
+        String newPassword = "91567";
+        String newPhone = "12411";
+        String newAddr = "CHINA";
+        update(sql,newUser,newPassword,newPhone,newAddr);
     }
 
     /**
@@ -88,5 +95,26 @@ public class PreparedStatementTest {
         }
 
         return null;
+    }
+    public static void update(String sql, Object... args){
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try{
+            // 获取数据库连接
+            conn = JDBCUtils.getConnection();
+            // 获取 PreparedStatement的实例（或预编译sql语句）
+            ps = conn.prepareStatement(sql);
+            // 填充占位符
+            for( int i = 0; i < args.length; i++){
+                ps.setObject(i + 1, args[i]);
+            }
+            // 执行sql语句
+            ps.execute();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            //关闭资源
+            JDBCUtils.closeResource(conn,ps);
+        }
     }
 }
