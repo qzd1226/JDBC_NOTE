@@ -35,13 +35,15 @@ public class PreparedStatementTest {
         }else{
             System.out.println("用户名不存在或密码错误");
         }
-        System.out.println(returnUser);
-        sql = "INSERT INTO admin (username,PASSWORD,phone,Address) values (?,?,?,?)";
-        String newUser = "ybk";
-        String newPassword = "91567";
-        String newPhone = "12411";
-        String newAddr = "CHINA";
-        update(sql,newUser,newPassword,newPhone,newAddr);
+        // update 部分的测试
+//        System.out.println(returnUser);
+//        sql = "INSERT INTO admin (username,PASSWORD,phone,Address) values (?,?,?,?)";
+//        String newUser = "ybk";
+//        String newPassword = "91567";
+//        String newPhone = "12411";
+//        String newAddr = "CHINA";
+//        update(sql,newUser,newPassword,newPhone,newAddr);
+
     }
 
     /**
@@ -65,10 +67,21 @@ public class PreparedStatementTest {
                 ps.setObject(i + 1, args[i]);
             }
             rs = ps.executeQuery();
+            System.out.println(rs.next());
+            System.out.println(rs.getObject(1));
             // 获取结果集的元数据 :ResultSetMetaData
             ResultSetMetaData rsmd = rs.getMetaData();
             // 通过ResultSetMetaData获取结果集中的列数
             int columnCount = rsmd.getColumnCount();
+            System.out.println(columnCount);
+            // getColumnTypeName(int column) 检索指定列的数据库特定的类型名称
+            System.out.println(rsmd.getColumnType(1));
+            // getColumnDisplaySize(int column) 指示指定列的最大标准宽度， 以字符为单位
+            System.out.println(rsmd.getColumnDisplaySize(1));
+            // isNullable(int column): 指定列的值是否可以为null
+            System.out.println(rsmd.isNullable(1));
+            // isAutoIncrement(int column) 指定是否自动编号
+            System.out.println(rsmd.isAutoIncrement(1));
 
             if (rs.next()) {
                 T t = clazz.newInstance();
